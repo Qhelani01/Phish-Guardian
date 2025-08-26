@@ -4,14 +4,25 @@
   --earth: #839788;
 }
 
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; height: 100%; }
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color: var(--light-steel);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--white);
+  color: var(--light-steel);
+  line-height: 1.6;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 /* Navigation Styles */
@@ -291,10 +302,36 @@ body {
   }
 }
 
-.container { width: 100%; max-width: 900px; margin: 0 auto; padding: 32px 20px; }
-.hero { text-align: center; padding: 40px 0 24px; }
-.hero h1 { margin: 0 0 10px; font-weight: 600; color: var(--light-steel); }
-.hero p { margin: 0; opacity: 0.8; }
+/* Container and Layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  min-height: calc(100vh - 200px); /* Account for header and footer */
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 60px 0;
+  margin-bottom: 40px;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--light-steel);
+  margin: 0 0 20px 0;
+  line-height: 1.2;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: var(--light-steel);
+  opacity: 0.8;
+  margin: 0;
+  line-height: 1.6;
+}
 
 .card {
   border: 1px solid rgba(73,80,87,0.12);
@@ -357,7 +394,10 @@ body {
   border-top: 1px solid rgba(73, 80, 87, 0.1);
   padding: 24px 0;
   text-align: center;
-  margin-top: 60px;
+  margin-top: 40px;
+  width: 100%;
+  position: relative;
+  bottom: 0;
 }
 
 .footer-content {
@@ -365,6 +405,7 @@ body {
   justify-content: center;
   gap: 40px;
   margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
 .footer-section {
@@ -488,19 +529,36 @@ body {
 .analysis-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin: 18px 0;
+  gap: 30px;
+  margin: 40px 0;
+  width: 100%;
 }
 
 .analysis-container .card {
   margin: 0;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Responsive design for mobile */
 @media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero p {
+    font-size: 1.1rem;
+  }
+  
   .analysis-container {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 20px;
+    margin: 30px 0;
+  }
+  
+  .container {
+    padding: 0 15px;
   }
 }
 

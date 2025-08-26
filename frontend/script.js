@@ -221,4 +221,31 @@ emailForm.addEventListener('submit', async (e) => {
 // Initialize app
 checkAuthStatus();
 
+// Smart footer visibility
+function handleFooterVisibility() {
+  const footer = document.querySelector('.footer');
+  const dashboard = document.getElementById('dashboard');
+  const container = document.querySelector('.container');
+  
+  if (!footer || !container) return;
+  
+  const containerHeight = container.scrollHeight;
+  const windowHeight = window.innerHeight;
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+  // Show footer only when there's enough content or user has scrolled down
+  if (containerHeight > windowHeight || scrollTop > 100) {
+    footer.style.display = 'block';
+  } else {
+    footer.style.display = 'none';
+  }
+}
+
+// Add event listeners for footer visibility
+window.addEventListener('scroll', handleFooterVisibility);
+window.addEventListener('resize', handleFooterVisibility);
+
+// Initial check
+document.addEventListener('DOMContentLoaded', handleFooterVisibility);
+
 

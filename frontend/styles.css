@@ -307,8 +307,9 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
-  min-height: calc(100vh - 200px);
-  padding-bottom: 40px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Hero Section */
@@ -395,10 +396,10 @@ body {
   border-top: 1px solid rgba(73, 80, 87, 0.1);
   padding: 24px 0;
   text-align: center;
-  margin-top: 80px;
   width: 100%;
   position: relative;
-  bottom: 0;
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 .footer-content {
@@ -468,11 +469,12 @@ body {
 
 /* Dashboard Styles */
 #dashboard {
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   padding: 30px;
   background: rgba(131, 151, 136, 0.05);
   border: 1px solid rgba(131, 151, 136, 0.1);
   border-radius: 12px;
+  flex-shrink: 0;
 }
 
 #dashboard h2 {

@@ -46,6 +46,43 @@
       </div>
     </header>
 
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+      <div class="mobile-menu-header">
+        <div class="mobile-brand">
+          <img src="/logo2.png" alt="Phish Guardian Logo" class="mobile-logo">
+          <span class="mobile-brand-text">Phish Guardian</span>
+        </div>
+        <button id="mobile-menu-close" class="mobile-menu-close">&times;</button>
+      </div>
+      
+      <nav class="mobile-nav">
+        <a href="/" class="mobile-nav-link">Home</a>
+        
+        <div class="mobile-nav-section">
+          <div class="mobile-nav-header">
+            <span class="mobile-nav-title">About</span>
+            <button class="mobile-dropdown-toggle" data-target="about-dropdown">▼</button>
+          </div>
+          <div id="about-dropdown" class="mobile-dropdown-content">
+            <p>Phish Guardian is a powerful cybersecurity tool that protects users from malicious websites and emails. Using advanced threat intelligence from VirusTotal, our app analyzes suspicious URLs and email content to identify potential phishing threats before they can harm you.</p>
+          </div>
+        </div>
+        
+        <a href="mailto:qhestoemoyo@gmail.com" class="mobile-nav-link">Contact</a>
+        
+        <div class="mobile-auth-section">
+          <div id="mobile-guest-auth">
+            <a href="/login.html" class="mobile-btn mobile-btn-secondary">Sign In</a>
+            <a href="/signup.html" class="mobile-btn mobile-btn-primary active">Sign Up</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
+
     <main class="container">
       <section class="hero">
         <h1>Join Phish Guardian</h1>

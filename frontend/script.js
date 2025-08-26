@@ -248,11 +248,116 @@ function handleFooterVisibility() {
   }
 }
 
+// Mobile Menu Functionality
+function initializeMobileMenu() {
+  const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
+  const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+  const dropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+  
+  // Toggle mobile menu
+  if (mobileMenuToggle) {
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileMenu.classList.add('open');
+      mobileMenuOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+  
+  // Close mobile menu
+  if (mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', closeMobileMenu);
+  }
+  
+  if (mobileMenuOverlay) {
+    mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+  }
+  
+  // Dropdown functionality
+  dropdownToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+      const target = e.target.getAttribute('data-target');
+      const dropdown = document.getElementById(target);
+      const isActive = dropdown.classList.contains('active');
+      
+      // Close all other dropdowns
+      document.querySelectorAll('.mobile-dropdown-content').forEach(dd => {
+        dd.classList.remove('active');
+      });
+      
+      // Toggle current dropdown
+      if (!isActive) {
+        dropdown.classList.add('active');
+        e.target.classList.add('active');
+      } else {
+        dropdown.classList.remove('active');
+        e.target.classList.remove('active');
+      }
+    });
+  });
+  
+  // Close mobile menu function
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    mobileMenuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    
+    // Close all dropdowns
+    document.querySelectorAll('.mobile-dropdown-content').forEach(dd => {
+      dd.classList.remove('active');
+    });
+    document.querySelectorAll('.mobile-dropdown-toggle').forEach(toggle => {
+      toggle.classList.remove('active');
+    });
+  }
+  
+  // Close on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+      closeMobileMenu();
+    }
+  });
+}
+
+// Update mobile menu authentication state
+function updateMobileAuthState() {
+  const mobileGuestAuth = document.getElementById('mobile-guest-auth');
+  const mobileUserAuth = document.getElementById('mobile-user-auth');
+  const mobileUserName = document.getElementById('mobile-user-name');
+  
+  if (currentUser && mobileGuestAuth && mobileUserAuth && mobileUserName) {
+    mobileGuestAuth.style.display = 'none';
+    mobileUserAuth.style.display = 'block';
+    mobileUserName.textContent = currentUser.name;
+  } else if (mobileGuestAuth && mobileUserAuth) {
+    mobileGuestAuth.style.display = 'block';
+    mobileUserAuth.style.display = 'none';
+  }
+}
+
 // Add event listeners for footer visibility
 window.addEventListener('scroll', handleFooterVisibility);
 window.addEventListener('resize', handleFooterVisibility);
 
-// Initial check
-document.addEventListener('DOMContentLoaded', handleFooterVisibility);
+// Initialize mobile menu when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  handleFooterVisibility();
+  initializeMobileMenu();
+});
+
+// Update mobile auth state when user logs in/out
+const originalShowAuthenticatedUser = showAuthenticatedUser;
+const originalShowUnauthenticatedUser = showUnauthenticatedUser;
+
+showAuthenticatedUser = function() {
+  originalShowAuthenticatedUser.call(this);
+  updateMobileAuthState();
+};
+
+showUnauthenticatedUser = function() {
+  originalShowUnauthenticatedUser.call(this);
+  updateMobileAuthState();
+};
 
 

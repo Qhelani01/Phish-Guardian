@@ -400,6 +400,7 @@ body {
   position: relative;
   margin-top: auto;
   flex-shrink: 0;
+  display: block; /* Default visible */
 }
 
 .footer-content {

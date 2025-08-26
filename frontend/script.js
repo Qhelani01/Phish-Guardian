@@ -229,6 +229,13 @@ function handleFooterVisibility() {
   
   if (!footer || !container) return;
   
+  // Always show footer on home page (when no dashboard)
+  if (!dashboard || dashboard.style.display === 'none') {
+    footer.style.display = 'block';
+    return;
+  }
+  
+  // Smart hiding only when dashboard is visible
   const containerHeight = container.scrollHeight;
   const windowHeight = window.innerHeight;
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;

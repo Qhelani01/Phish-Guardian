@@ -307,7 +307,8 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
-  min-height: calc(100vh - 200px); /* Account for header and footer */
+  min-height: calc(100vh - 200px);
+  padding-bottom: 40px;
 }
 
 /* Hero Section */
@@ -394,7 +395,7 @@ body {
   border-top: 1px solid rgba(73, 80, 87, 0.1);
   padding: 24px 0;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 80px;
   width: 100%;
   position: relative;
   bottom: 0;
@@ -465,18 +466,38 @@ body {
   text-decoration: underline;
 }
 
-/* Dashboard styles */
+/* Dashboard Styles */
+#dashboard {
+  margin-bottom: 60px;
+  padding: 30px;
+  background: rgba(131, 151, 136, 0.05);
+  border: 1px solid rgba(131, 151, 136, 0.1);
+  border-radius: 12px;
+}
+
+#dashboard h2 {
+  margin: 0 0 20px 0;
+  color: var(--light-steel);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
 .scan-history {
-  max-height: 400px;
-  overflow-y: auto;
+  min-height: 100px;
 }
 
 .scan-item {
-  padding: 16px;
-  border: 1px solid rgba(73,80,87,0.1);
+  background: var(--white);
+  border: 1px solid rgba(73, 80, 87, 0.1);
   border-radius: 8px;
+  padding: 16px;
   margin-bottom: 12px;
-  background: rgba(131,151,136,0.02);
+  transition: all 0.3s ease;
+}
+
+.scan-item:hover {
+  border-color: var(--earth);
+  box-shadow: 0 2px 8px rgba(131, 151, 136, 0.1);
 }
 
 .scan-header {
@@ -489,21 +510,23 @@ body {
 .scan-type {
   background: var(--earth);
   color: var(--white);
-  padding: 4px 8px;
-  border-radius: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
 }
 
 .scan-time {
-  color: rgba(73,80,87,0.6);
+  color: var(--light-steel);
   font-size: 12px;
+  opacity: 0.7;
 }
 
 .scan-content {
-  font-size: 14px;
   color: var(--light-steel);
+  font-size: 14px;
   word-break: break-all;
+  line-height: 1.4;
 }
 
 /* User welcome styles */
@@ -512,13 +535,15 @@ body {
   border: 1px solid rgba(131,151,136,0.22);
   border-radius: 12px;
   padding: 16px;
-  margin-top: 20px;
+  margin: 20px 0 40px 0;
+  text-align: center;
 }
 
 #user-welcome p {
   margin: 0;
   font-weight: 600;
   color: var(--earth);
+  font-size: 1.1rem;
 }
 
 #user-name {

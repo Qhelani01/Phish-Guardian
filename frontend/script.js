@@ -218,6 +218,85 @@ emailForm.addEventListener('submit', async (e) => {
   }
 });
 
+// Profile management
+function editProfile() {
+  // For now, just show a simple alert. You can expand this later
+  alert('Profile editing feature coming soon!');
+}
+
+async function logout() {
+  try {
+    // Close mobile menu if it's open
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    if (mobileMenu && mobileMenu.classList.contains('open')) {
+      mobileMenu.classList.remove('open');
+      if (mobileMenuOverlay) {
+        mobileMenuOverlay.classList.remove('active');
+      }
+      document.body.style.overflow = '';
+    }
+    
+    // Show "Bye" popup first
+    showByePopup();
+    
+    // Wait a moment for the popup to be visible
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Call logout API
+    const response = await fetch('/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include'
+    });
+    
+    if (response.ok) {
+      // Update UI state
+      showUnauthenticatedUser();
+      
+      // Redirect to home page after a short delay
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1500);
+    } else {
+      console.error('Logout failed');
+    }
+  } catch (error) {
+    console.error('Logout error:', error);
+  }
+}
+
+// Show "Bye" popup
+function showByePopup() {
+  // Create popup element
+  const popup = document.createElement('div');
+  popup.className = 'bye-popup';
+  popup.innerHTML = `
+    <div class="bye-popup-content">
+      <div class="bye-icon">👋</div>
+      <h3>Bye!</h3>
+      <p>You've been successfully logged out</p>
+    </div>
+  `;
+  
+  // Add to page
+  document.body.appendChild(popup);
+  
+  // Show popup
+  setTimeout(() => {
+    popup.classList.add('show');
+  }, 10);
+  
+  // Remove popup after animation
+  setTimeout(() => {
+    popup.classList.remove('show');
+    setTimeout(() => {
+      if (popup.parentNode) {
+        popup.parentNode.removeChild(popup);
+      }
+    }, 300);
+  }, 2000);
+}
+
 // Initialize app
 checkAuthStatus();
 

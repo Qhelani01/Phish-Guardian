@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign Up - Phish Guardian</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <a href="/" class="brand-link">
+            <img src="/logo2.png" alt="Phish Guardian Logo" class="brand-logo">
+            <span class="brand-text">Phish Guardian</span>
+          </a>
+        </div>
+        
+        <nav class="nav-menu">
+          <a href="/" class="nav-link">Home</a>
+          <div class="nav-dropdown">
+            <a href="#about" class="nav-link">About</a>
+            <div class="dropdown-content">
+              <div class="dropdown-body">
+                <p>Phish Guardian is a powerful cybersecurity tool that protects users from malicious websites and emails. Using advanced threat intelligence from VirusTotal, our app analyzes suspicious URLs and email content to identify potential phishing threats before they can harm you.</p>
+              </div>
+            </div>
+          </div>
+          <a href="mailto:qhestoemoyo@gmail.com" class="nav-link">Contact</a>
+          <div class="nav-auth">
+            <div class="nav-auth-buttons">
+              <a href="/login.html" class="btn-signin">Sign In</a>
+              <a href="/signup.html" class="btn-signup active">Sign Up</a>
+            </div>
+          </div>
+        </nav>
+        
+        <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1>Join Phish Guardian</h1>
+        <p>Create an account to start detecting phishing threats with confidence.</p>
+      </section>
+
+      <section class="card auth-form">
+        <h2>Create Account</h2>
+        <form id="signup-form" class="form">
+          <input type="text" id="name-input" placeholder="Full name" required />
+          <input type="email" id="email-input" placeholder="Email address" required />
+          <input type="password" id="password-input" placeholder="Password (min 6 characters)" required minlength="6" />
+          <button type="submit">Create Account</button>
+        </form>
+        <div id="signup-result" class="result"></div>
+        <p class="auth-link">
+          Already have an account? <a href="/login.html">Sign in here</a>
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <span>Powered by VirusTotal</span>
+        </div>
+        <div class="footer-section">
+          <span>Contact: <a href="mailto:qhestoemoyo@gmail.com" class="footer-link">qhestoemoyo@gmail.com</a></span>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <span>© 2025 Qhelani Moyo. All rights reserved.</span>
+      </div>
+    </footer>
+
+    <script src="/auth.js" defer></script>
+  </body>
+</html>

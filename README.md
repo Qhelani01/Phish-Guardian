@@ -64,11 +64,24 @@ phish-guardian/
    ```
 
 3. **Set up environment variables**
-   Create a `.env` file in the root directory:
-   ```env
-   VIRUSTOTAL_API_KEY=your_api_key_here
-   PORT=8080
+   Copy the example environment file and fill in your values:
+   ```bash
+   cp .env.example .env
    ```
+   
+   Then edit `.env` with your actual values:
+   ```env
+   PORT=8080
+   NODE_ENV=development
+   FRONTEND_URL=http://localhost:8080
+   JWT_SECRET=your-secret-key-change-in-production
+   VIRUSTOTAL_API_KEY=your_virustotal_api_key_here
+   ```
+   
+   **Important**: 
+   - `JWT_SECRET` and `VIRUSTOTAL_API_KEY` are **required** - the server will not start without them
+   - Generate a strong `JWT_SECRET` with: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
+   - Get your VirusTotal API key from: https://www.virustotal.com/gui/join-us
 
 4. **Run the development server**
    ```bash
@@ -99,10 +112,13 @@ phish-guardian/
 ## 🔒 Security Features
 
 - Password hashing with bcryptjs
-- Session-based authentication
-- Protected API routes
+- Session-based authentication with secure cookies
+- Protected API routes with authentication middleware
 - Input validation and sanitization
-- CORS protection
+- CORS protection (configurable for production)
+- Helmet.js security headers (XSS protection, content security policy)
+- Environment variable validation (required secrets)
+- No hardcoded API keys or secrets
 
 ## 📱 Responsive Design
 

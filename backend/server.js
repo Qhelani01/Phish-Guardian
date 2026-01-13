@@ -1,6 +1,7 @@
 import express from 'express';
 import axios from 'axios';
 import cors from 'cors';
+import helmet from 'helmet';
 import path from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
@@ -15,17 +16,47 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const JWT_SECRET = process.env.JWT_SECRET;
+const VIRUSTOTAL_API_KEY = process.env.VIRUSTOTAL_API_KEY;
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:8080';
+const NODE_ENV = process.env.NODE_ENV || 'development';
+
+// Validate required environment variables
+if (!JWT_SECRET) {
+  console.error('ERROR: JWT_SECRET environment variable is required');
+  process.exit(1);
+}
+
+if (!VIRUSTOTAL_API_KEY) {
+  console.error('ERROR: VIRUSTOTAL_API_KEY environment variable is required');
+  process.exit(1);
+}
 
 // In-memory user storage (replace with database in production)
 const users = new Map();
 const userScans = new Map();
 
-// Basic security & parsers
-app.use(cors({
-  origin: 'http://localhost:8080',
-  credentials: true
+// Security headers with helmet
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+    },
+  },
 }));
+
+// CORS configuration - supports both development and production
+app.use(cors({
+  origin: FRONTEND_URL.split(',').map(url => url.trim()), // Support multiple origins
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json({ limit: '1mb' }));
 
 // Session middleware
@@ -34,17 +65,15 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: { 
-    secure: false, // Set to true in production with HTTPS
+    secure: NODE_ENV === 'production', // Use secure cookies in production (HTTPS required)
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    sameSite: 'lax' // CSRF protection
   }
 }));
 
 // Serve static frontend
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
-
-// Config & API keys
-const VIRUSTOTAL_API_KEY = process.env.VIRUSTOTAL_API_KEY || '7a4dcef2ab3418416fd16a73f14cceeca569b0f3077b56351e4a0bb2d52aecb9';
 
 // Middleware to check if user is authenticated
 const requireAuth = (req, res, next) => {

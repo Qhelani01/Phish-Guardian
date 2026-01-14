@@ -262,6 +262,10 @@ body {
   display: flex;
   gap: var(--spacing);
   align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
 }
 
 .btn-signin,
@@ -273,18 +277,16 @@ body {
   font-size: 0.875rem;
   transition: all var(--transition);
   display: inline-block;
-  border: 2px solid transparent;
+  border: none;
 }
 
 .btn-signin {
   color: var(--text-secondary);
   background: transparent;
-  border-color: var(--gray-300);
 }
 
 .btn-signin:hover {
   color: var(--primary);
-  border-color: var(--primary);
   background: rgba(26, 26, 26, 0.05);
   transform: translateY(-2px);
   box-shadow: var(--shadow);
@@ -293,7 +295,6 @@ body {
 .btn-signup {
   color: white;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  border-color: transparent;
   box-shadow: var(--shadow);
 }
 

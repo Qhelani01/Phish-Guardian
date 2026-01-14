@@ -120,21 +120,53 @@ function displayScanHistory(scans) {
   scanHistory.innerHTML = historyHTML;
 }
 
-// Format VirusTotal summary
+// Format VirusTotal summary as HTML
 function formatVirusTotalSummary(vtAnalysis) {
-  if (!vtAnalysis) return 'VirusTotal: no data';
+  if (!vtAnalysis) {
+    return '<div class="result-status"><span class="status-label">VirusTotal:</span> <span class="status-value">No data available</span></div>';
+  }
   const stats = vtAnalysis?.attributes?.stats || vtAnalysis?.attributes?.results?.stats || vtAnalysis?.attributes || {};
   const malicious = stats?.malicious ?? vtAnalysis?.attributes?.malicious ?? 0;
   const suspicious = stats?.suspicious ?? vtAnalysis?.attributes?.suspicious ?? 0;
   const harmless = stats?.harmless ?? vtAnalysis?.attributes?.harmless ?? 0;
   const undetected = stats?.undetected ?? vtAnalysis?.attributes?.undetected ?? 0;
-  return `VirusTotal — malicious: ${malicious}, suspicious: ${suspicious}, harmless: ${harmless}, undetected: ${undetected}`;
+  
+  const total = malicious + suspicious + harmless + undetected;
+  const threatLevel = malicious > 0 ? 'high' : suspicious > 0 ? 'medium' : 'low';
+  
+  return `
+    <div class="result-header">
+      <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: var(--text-primary);">VirusTotal Analysis</h3>
+      <div class="threat-badge threat-${threatLevel}">
+        ${threatLevel === 'high' ? '⚠️ High Risk' : threatLevel === 'medium' ? '⚡ Medium Risk' : '✓ Low Risk'}
+      </div>
+    </div>
+    <div class="result-stats">
+      <div class="stat-item stat-danger">
+        <span class="stat-label">Malicious</span>
+        <span class="stat-value">${malicious}</span>
+      </div>
+      <div class="stat-item stat-warning">
+        <span class="stat-label">Suspicious</span>
+        <span class="stat-value">${suspicious}</span>
+      </div>
+      <div class="stat-item stat-success">
+        <span class="stat-label">Harmless</span>
+        <span class="stat-value">${harmless}</span>
+      </div>
+      <div class="stat-item stat-neutral">
+        <span class="stat-label">Undetected</span>
+        <span class="stat-value">${undetected}</span>
+      </div>
+    </div>
+    ${total > 0 ? `<div class="result-total">Total scans: ${total}</div>` : ''}
+  `;
 }
 
 // Render URL analysis result
 function renderUrlResult(data) {
-  const vtText = formatVirusTotalSummary(data.virusTotal);
-  urlResult.textContent = vtText;
+  const vtHtml = formatVirusTotalSummary(data.virusTotal);
+  urlResult.innerHTML = vtHtml;
   
   // Reload scan history if user is authenticated
   if (currentUser) {
@@ -149,11 +181,11 @@ urlForm.addEventListener('submit', async (e) => {
   if (!value) return;
   
   if (!currentUser) {
-    urlResult.textContent = 'Please login to use this feature';
+    urlResult.innerHTML = '<div class="result-message" style="color: var(--danger); font-weight: 600;">⚠️ Please login to use this feature</div>';
     return;
   }
   
-  urlResult.textContent = 'Scanning URL...';
+  urlResult.innerHTML = '<div class="result-loading" style="text-align: center; padding: 2rem;"><div style="display: inline-block; width: 40px; height: 40px; border: 4px solid var(--gray-200); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite;"></div><p style="margin-top: 1rem; color: var(--text-secondary);">Scanning URL...</p></div>';
   try {
     const res = await fetch('/api/analyze/url', {
       method: 'POST',
@@ -165,25 +197,49 @@ urlForm.addEventListener('submit', async (e) => {
     if (!res.ok) throw new Error(data?.error || 'Request failed');
     renderUrlResult(data);
   } catch (err) {
-    urlResult.textContent = `Error: ${err.message}`;
+    urlResult.innerHTML = `<div class="result-error" style="color: var(--danger); font-weight: 600; padding: 1rem; background: rgba(239, 68, 68, 0.1); border-radius: var(--radius-md); border: 1px solid rgba(239, 68, 68, 0.2);">❌ Error: ${err.message}</div>`;
   }
 });
 
 // Render email analysis result
 function renderEmailResult(data) {
   const { extractedUrls = [], analyses = [] } = data;
-  const parts = [];
-  parts.push(`Extracted URLs (${extractedUrls.length}):`);
+  let html = '';
+  
+  html += `<div class="result-header">
+    <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: var(--text-primary);">Email Analysis</h3>
+    <div class="extracted-count">Found ${extractedUrls.length} URL${extractedUrls.length !== 1 ? 's' : ''}</div>
+  </div>`;
+  
   if (extractedUrls.length === 0) {
-    parts.push('- none');
+    html += '<div class="result-message">No URLs found in email content.</div>';
   } else {
-    for (const u of extractedUrls) parts.push(`- ${u}`);
+    html += '<div class="url-list">';
+    extractedUrls.forEach((url, index) => {
+      html += `<div class="url-item">
+        <span class="url-number">${index + 1}</span>
+        <span class="url-text">${url}</span>
+      </div>`;
+    });
+    html += '</div>';
   }
-  for (const a of analyses) {
-    const vtText = formatVirusTotalSummary(a.virusTotal);
-    parts.push(`\nURL: ${a.url}\n${vtText}`);
+  
+  if (analyses.length > 0) {
+    html += '<div class="analyses-section" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200);">';
+    analyses.forEach((analysis, index) => {
+      html += `<div class="analysis-item" style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: var(--radius-md); border: 1px solid var(--gray-200);">`;
+      html += `<div style="margin-bottom: 0.75rem; font-weight: 600; color: var(--text-primary);">URL ${index + 1}: <span style="color: var(--primary); word-break: break-all;">${analysis.url}</span></div>`;
+      if (analysis.error) {
+        html += `<div class="result-error">Error: ${analysis.error}</div>`;
+      } else {
+        html += formatVirusTotalSummary(analysis.virusTotal);
+      }
+      html += '</div>';
+    });
+    html += '</div>';
   }
-  emailResult.textContent = parts.join('\n');
+  
+  emailResult.innerHTML = html;
   
   // Reload scan history if user is authenticated
   if (currentUser) {
@@ -198,11 +254,11 @@ emailForm.addEventListener('submit', async (e) => {
   if (!value) return;
   
   if (!currentUser) {
-    emailResult.textContent = 'Please login to use this feature';
+    emailResult.innerHTML = '<div class="result-message" style="color: var(--danger); font-weight: 600;">⚠️ Please login to use this feature</div>';
     return;
   }
   
-  emailResult.textContent = 'Analyzing email...';
+  emailResult.innerHTML = '<div class="result-loading" style="text-align: center; padding: 2rem;"><div style="display: inline-block; width: 40px; height: 40px; border: 4px solid var(--gray-200); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite;"></div><p style="margin-top: 1rem; color: var(--text-secondary);">Analyzing email...</p></div>';
   try {
     const res = await fetch('/api/analyze/email', {
       method: 'POST',
@@ -214,7 +270,7 @@ emailForm.addEventListener('submit', async (e) => {
     if (!res.ok) throw new Error(data?.error || 'Request failed');
     renderEmailResult(data);
   } catch (err) {
-    emailResult.textContent = `Error: ${err.message}`;
+    emailResult.innerHTML = `<div class="result-error" style="color: var(--danger); font-weight: 600; padding: 1rem; background: rgba(239, 68, 68, 0.1); border-radius: var(--radius-md); border: 1px solid rgba(239, 68, 68, 0.2);">❌ Error: ${err.message}</div>`;
   }
 });
 

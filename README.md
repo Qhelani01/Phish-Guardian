@@ -43,6 +43,37 @@ phish-guardian/
 └── README.md              # This file
 ```
 
+### Wireframe (overview)
+
+```mermaid
+flowchart TB
+  Repo["phish-guardian/"]
+
+  Repo --> BackendDir["backend/"]
+  BackendDir --> Server["server.js<br/>Express + API + static frontend"]
+
+  Repo --> FrontendDir["frontend/"]
+  FrontendDir --> Index["index.html<br/>Home + dashboard"]
+  FrontendDir --> Login["login.html"]
+  FrontendDir --> Signup["signup.html"]
+  FrontendDir --> MainJS["script.js<br/>UI, scans, history"]
+  FrontendDir --> AuthJS["auth.js<br/>Login/signup"]
+  FrontendDir --> MenuJS["menu.js<br/>Legacy menu/theme"]
+  FrontendDir --> CSS["styles.css"]
+  FrontendDir --> Logo["logo2.png"]
+
+  Repo --> Config["Config and tooling"]
+  Config --> Vercel["vercel.json<br/>Vercel routes/build"]
+  Config --> Env[".env.example<br/>Required env vars"]
+  Config --> Pkg["package.json<br/>Deps + scripts"]
+
+  Index -->|loads| MainJS
+  Login -->|loads| AuthJS
+  Signup -->|loads| AuthJS
+  MainJS -->|calls API| Server
+  AuthJS -->|calls API| Server
+```
+
 ## 🚀 Getting Started
 
 ### Prerequisites

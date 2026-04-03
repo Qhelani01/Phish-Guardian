@@ -36,7 +36,6 @@ phish-guardian/
 │   ├── styles.css         # All styling
 │   ├── script.js          # Main application logic
 │   ├── auth.js            # Authentication handling
-│   ├── menu.js            # Menu functionality
 │   └── logo2.png          # Custom logo
 ├── vercel.json            # Vercel deployment config
 ├── package.json           # Dependencies
@@ -58,7 +57,6 @@ flowchart TB
   FrontendDir --> Signup["signup.html"]
   FrontendDir --> MainJS["script.js<br/>UI, scans, history"]
   FrontendDir --> AuthJS["auth.js<br/>Login/signup"]
-  FrontendDir --> MenuJS["menu.js<br/>Legacy menu/theme"]
   FrontendDir --> CSS["styles.css"]
   FrontendDir --> Logo["logo2.png"]
 

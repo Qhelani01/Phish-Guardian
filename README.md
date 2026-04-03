@@ -8,7 +8,7 @@ A powerful cybersecurity web application that protects users from phishing attac
 - **📧 Email Protection** - Detect phishing emails and extract malicious URLs
 - **🔐 User Authentication** - Secure signup, login, and user management
 - **📊 Scan History** - Track all your security analyses
-- **🎨 Modern UI** - Beautiful, responsive design inspired by Tesla
+- **🎨 Modern UI** - Professional dark theme with clear typography and layout
 - **📱 Mobile Responsive** - Works perfectly on all devices
 
 ## 🚀 Live Demo
@@ -30,11 +30,14 @@ phish-guardian/
 ├── backend/
 │   └── server.js          # Express server & API endpoints
 ├── frontend/
-│   ├── index.html         # Home page
+│   ├── index.html         # Marketing landing page
+│   ├── app.html           # Analyzer (URL + email tools, scan history)
 │   ├── login.html         # Login page
 │   ├── signup.html        # Registration page
 │   ├── styles.css         # All styling
-│   ├── script.js          # Main application logic
+│   ├── script.js          # Analyzer page logic
+│   ├── landing.js         # Landing page auth state
+│   ├── landing-menu.js    # Mobile menu (landing + auth pages)
 │   ├── auth.js            # Authentication handling
 │   └── logo2.png          # Custom logo
 ├── vercel.json            # Vercel deployment config
@@ -52,10 +55,12 @@ flowchart TB
   BackendDir --> Server["server.js<br/>Express + API + static frontend"]
 
   Repo --> FrontendDir["frontend/"]
-  FrontendDir --> Index["index.html<br/>Home + dashboard"]
+  FrontendDir --> Index["index.html<br/>Landing page"]
+  FrontendDir --> App["app.html<br/>Analyzer"]
   FrontendDir --> Login["login.html"]
   FrontendDir --> Signup["signup.html"]
-  FrontendDir --> MainJS["script.js<br/>UI, scans, history"]
+  FrontendDir --> MainJS["script.js<br/>Analyzer UI"]
+  FrontendDir --> LandingJS["landing.js<br/>Landing CTA state"]
   FrontendDir --> AuthJS["auth.js<br/>Login/signup"]
   FrontendDir --> CSS["styles.css"]
   FrontendDir --> Logo["logo2.png"]
@@ -65,7 +70,8 @@ flowchart TB
   Config --> Env[".env.example<br/>Required env vars"]
   Config --> Pkg["package.json<br/>Deps + scripts"]
 
-  Index -->|loads| MainJS
+  Index -->|loads| LandingJS
+  App -->|loads| MainJS
   Login -->|loads| AuthJS
   Signup -->|loads| AuthJS
   MainJS -->|calls API| Server
@@ -132,8 +138,8 @@ flowchart TB
 
 ## 🎨 Design Features
 
-- **Color Scheme**: White, Light Steel (#495057), Tranquil Earth (#839788)
-- **Typography**: Inter font family for modern readability
+- **Color scheme**: Dark slate base with teal accent and subtle ambient gradients
+- **Typography**: Outfit (headings) and IBM Plex Sans (body), loaded from Google Fonts
 - **Animations**: Smooth transitions and hover effects
 - **Responsive**: Mobile-first design approach
 - **Accessibility**: Proper contrast and keyboard navigation

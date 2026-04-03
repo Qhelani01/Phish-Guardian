@@ -18,8 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       
       if (response.ok) {
-        // User is logged in, redirect to main app
-        window.location.href = '/';
+        window.location.href = '/app.html';
       }
     } catch (error) {
       console.log('Not authenticated');
@@ -60,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (response.ok) {
           resultDiv.textContent = 'Login successful! Redirecting...';
           setTimeout(() => {
-            window.location.href = '/';
+            window.location.href = '/app.html';
           }, 1000);
         } else {
           resultDiv.textContent = `Error: ${data.error}`;
@@ -112,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (response.ok) {
           resultDiv.textContent = 'Account created successfully! Redirecting...';
           setTimeout(() => {
-            window.location.href = '/';
+            window.location.href = '/app.html';
           }, 1000);
         } else {
           resultDiv.textContent = `Error: ${data.error}`;

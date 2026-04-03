@@ -3,49 +3,44 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#070a0f" />
+    <meta name="description" content="Phish Guardian — analyze suspicious URLs and emails with VirusTotal threat intelligence." />
     <title>Phish Guardian</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
-    <header class="nav">
+  <body class="page-landing">
+    <header class="nav nav--landing">
       <div class="nav-container">
         <div class="nav-brand">
           <a href="/" class="brand-link">
-            <img src="/logo2.png" alt="Phish Guardian Logo" class="brand-logo">
+            <img src="/logo2.png" alt="" class="brand-logo" width="40" height="40">
             <span class="brand-text">Phish Guardian</span>
           </a>
         </div>
-        
+
         <nav class="nav-menu">
           <a href="/" class="nav-link active">Home</a>
-          <div class="nav-dropdown">
-            <a href="#about" class="nav-link">About</a>
-            <div class="dropdown-content">
-              <div class="dropdown-body">
-                <p>Phish Guardian is a powerful cybersecurity tool that protects users from malicious websites and emails. Using advanced threat intelligence from VirusTotal, our app analyzes suspicious URLs and email content to identify potential phishing threats before they can harm you.</p>
-              </div>
-            </div>
-          </div>
-          <a href="mailto:qhestoemoyo@gmail.com" class="nav-link">Contact</a>
-          <div class="nav-auth">
-            <button id="header-auth" class="nav-auth-buttons">
+          <a href="#features" class="nav-link">Features</a>
+          <a href="/app.html" class="nav-link">Analyze</a>
+
+          <div id="landing-nav-guest" class="nav-auth">
+            <div class="nav-auth-buttons">
               <a href="/login.html" class="btn-signin">Sign In</a>
               <a href="/signup.html" class="btn-signup">Sign Up</a>
-            </button>
-            <div id="profile-section" class="profile-section" style="display: none;">
-              <span class="welcome-text">Welcome, <span id="header-user-name"></span></span>
-              <div id="profile-icon" class="profile-icon">
-                <span id="profile-initial"></span>
-              </div>
-              <button id="desktop-logout" class="desktop-logout-btn" onclick="logout()">Logout</button>
             </div>
           </div>
+
+          <div id="landing-nav-user" class="landing-header-user" style="display: none;">
+            <span class="welcome-text">Hi, <span id="landing-header-name"></span></span>
+            <a href="/app.html" class="btn-signup">Open analyzer</a>
+            <button type="button" class="desktop-logout-btn" onclick="landingLogout()">Logout</button>
+          </div>
         </nav>
-        
-        <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+
+        <button id="mobile-menu-toggle" class="mobile-menu-toggle" type="button" aria-label="Toggle mobile menu">
           <span></span>
           <span></span>
           <span></span>
@@ -53,93 +48,111 @@
       </div>
     </header>
 
-    <!-- Mobile Navigation Menu -->
     <div id="mobile-menu" class="mobile-menu">
       <div class="mobile-menu-header">
         <div class="mobile-brand">
-          <img src="/logo2.png" alt="Phish Guardian Logo" class="mobile-logo">
+          <img src="/logo2.png" alt="" class="mobile-logo">
           <span class="mobile-brand-text">Phish Guardian</span>
         </div>
-        <button id="mobile-menu-close" class="mobile-menu-close">&times;</button>
+        <button id="mobile-menu-close" class="mobile-menu-close" type="button">&times;</button>
       </div>
-      
+
       <nav class="mobile-nav">
         <a href="/" class="mobile-nav-link active">Home</a>
-        
-        <div class="mobile-nav-section">
-          <div class="mobile-nav-header">
-            <span class="mobile-nav-title">About</span>
-            <button class="mobile-dropdown-toggle" data-target="about-dropdown">▼</button>
-          </div>
-          <div id="about-dropdown" class="mobile-dropdown-content">
-            <p>Phish Guardian is a powerful cybersecurity tool that protects users from malicious websites and emails. Using advanced threat intelligence from VirusTotal, our app analyzes suspicious URLs and email content to identify potential phishing threats before they can harm you.</p>
-          </div>
+        <a href="#features" class="mobile-nav-link">Features</a>
+        <a href="/app.html" class="mobile-nav-link">Analyze</a>
+
+        <div id="landing-mobile-guest" class="mobile-auth-section">
+          <a href="/login.html" class="mobile-btn mobile-btn-primary">Sign In</a>
+          <a href="/signup.html" class="mobile-btn mobile-btn-secondary">Sign Up</a>
         </div>
-        
-        <a href="mailto:qhestoemoyo@gmail.com" class="mobile-nav-link">Contact</a>
-        
-        <div class="mobile-auth-section">
-          <div id="mobile-guest-auth">
-            <a href="/login.html" class="mobile-btn mobile-btn-primary">Sign In</a>
-            <a href="/signup.html" class="mobile-btn mobile-btn-secondary">Sign Up</a>
+
+        <div id="landing-mobile-user" class="mobile-auth-section" style="display: none;">
+          <div class="mobile-user-info">
+            <span>Signed in as <span id="landing-mobile-user-name"></span></span>
           </div>
-          <div id="mobile-user-auth" style="display: none;">
-            <div class="mobile-user-info">
-              <span>Welcome, <span id="mobile-user-name"></span></span>
-            </div>
-            <button class="mobile-btn mobile-btn-danger" onclick="logout()">Logout</button>
-          </div>
+          <a href="/app.html" class="mobile-btn mobile-btn-primary">Open analyzer</a>
+          <button type="button" class="mobile-btn mobile-btn-danger" onclick="landingLogout()">Logout</button>
         </div>
       </nav>
     </div>
 
-    <!-- Mobile Menu Overlay -->
     <div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
 
-    <main class="container">
-      <section class="hero">
-        <h1>Detect phishing with confidence</h1>
-        <p>Analyze suspicious URLs and emails using real security intelligence.</p>
-        <div id="user-welcome" style="display: none;">
-          <p>Welcome back, <span id="user-name"></span>!</p>
+    <main class="landing-main">
+      <section class="landing-hero">
+        <div class="landing-hero-visual">
+          <img src="/logo2.png" alt="Phish Guardian" class="landing-logo" width="180" height="180">
+        </div>
+        <h1 class="landing-brand-title">Phish Guardian</h1>
+        <p class="landing-headline">Detect phishing with confidence</p>
+        <p class="landing-sub">Analyze suspicious URLs and emails using real security intelligence.</p>
+      </section>
+
+      <section class="card landing-cta-card" aria-labelledby="cta-heading">
+        <div id="landing-cta-guest">
+          <h2 id="cta-heading">Try the analyzer</h2>
+          <p class="landing-cta-copy">Create a free account or sign in to scan links, inspect pasted email text, and keep a history of your checks—powered by VirusTotal.</p>
+          <div class="landing-cta-actions">
+            <a href="/signup.html" class="landing-btn landing-btn--primary">Create account</a>
+            <a href="/login.html" class="landing-btn landing-btn--secondary">Sign in</a>
+          </div>
+          <p class="landing-cta-note">No credit card required.</p>
+        </div>
+        <div id="landing-cta-user" hidden>
+          <h2 id="cta-heading-logged">You're signed in</h2>
+          <p class="landing-cta-copy">Continue to the analyzer to run URL and email checks.</p>
+          <div class="landing-cta-actions">
+            <a href="/app.html" class="landing-btn landing-btn--primary">Open analyzer</a>
+          </div>
         </div>
       </section>
 
-      <section id="dashboard" class="card" style="display: none;">
-        <h2>Your Scan History</h2>
-        <div id="scan-history" class="scan-history">
-          <p>Loading your scan history...</p>
+      <section class="landing-features" id="features">
+        <h2 class="landing-section-title">Built for quick, informed decisions</h2>
+        <p class="landing-section-lede">Everything you need to triage suspicious content in one place.</p>
+        <div class="features-grid">
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">🔗</span>
+            <h3>URL scanning</h3>
+            <p>Submit a link and see aggregated vendor verdicts from VirusTotal.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">✉️</span>
+            <h3>Email paste analysis</h3>
+            <p>Extract URLs from message text and check them without forwarding mail.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">📊</span>
+            <h3>Scan history</h3>
+            <p>Signed-in users get a running log of recent analyses (stored per session on the server).</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">🛡️</span>
+            <h3>Session-based access</h3>
+            <p>Secure sign-in with hashed passwords—your tools stay behind your account.</p>
+          </article>
         </div>
       </section>
 
-      <div class="analysis-container">
-        <section id="url" class="card">
-          <h2>URL Analysis</h2>
-          <form id="url-form" class="form">
-            <input type="url" id="url-input" placeholder="https://suspicious-site.example" required />
-            <button type="submit">Scan URL</button>
-          </form>
-          <div id="url-result" class="result"></div>
-        </section>
-
-        <section id="email" class="card">
-          <h2>Email Analysis</h2>
-          <form id="email-form" class="form">
-            <textarea id="email-input" rows="6" placeholder="Paste suspicious email content here..." required></textarea>
-            <button type="submit">Analyze Email</button>
-          </form>
-          <div id="email-result" class="result"></div>
-        </section>
-      </div>
+      <section class="landing-steps" aria-labelledby="steps-heading">
+        <h2 id="steps-heading" class="landing-section-title">How it works</h2>
+        <ol class="steps-list">
+          <li><strong>Sign up</strong> — takes under a minute.</li>
+          <li><strong>Open Analyze</strong> — paste a URL or email content.</li>
+          <li><strong>Review results</strong> — use verdicts to decide what to trust.</li>
+        </ol>
+      </section>
     </main>
 
     <footer class="footer">
       <div class="footer-content">
-        <div class="footer-section">
-          <span>Powered by VirusTotal</span>
+        <div class="footer-section footer-cta">
+          <p class="footer-cta-title">Have Any Questions?</p>
+          <a href="mailto:qhestoemoyo@gmail.com" class="footer-reach-btn">Reach Out!</a>
         </div>
         <div class="footer-section">
-          <span>Contact: <a href="mailto:qhestoemoyo@gmail.com" class="footer-link">qhestoemoyo@gmail.com</a></span>
+          <span>Powered by VirusTotal</span>
         </div>
       </div>
       <div class="footer-copyright">
@@ -147,8 +160,15 @@
       </div>
     </footer>
 
-    <script src="/script.js" defer></script>
+    <script>
+      async function landingLogout() {
+        try {
+          await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+        } catch (_) {}
+        window.location.href = '/';
+      }
+    </script>
+    <script src="/landing.js" defer></script>
+    <script src="/landing-menu.js" defer></script>
   </body>
 </html>
-
-

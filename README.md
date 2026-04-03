@@ -8,7 +8,7 @@ A powerful cybersecurity web application that protects users from phishing attac
 - **📧 Email Protection** - Detect phishing emails and extract malicious URLs
 - **🔐 User Authentication** - Secure signup, login, and user management
 - **📊 Scan History** - Track all your security analyses
-- **🎨 Modern UI** - Beautiful, responsive design inspired by Tesla
+- **🎨 Modern UI** - Professional dark theme with clear typography and layout
 - **📱 Mobile Responsive** - Works perfectly on all devices
 
 ## 🚀 Live Demo
@@ -132,8 +132,8 @@ flowchart TB
 
 ## 🎨 Design Features
 
-- **Color Scheme**: White, Light Steel (#495057), Tranquil Earth (#839788)
-- **Typography**: Inter font family for modern readability
+- **Color scheme**: Dark slate base with teal accent and subtle ambient gradients
+- **Typography**: Outfit (headings) and IBM Plex Sans (body), loaded from Google Fonts
 - **Animations**: Smooth transitions and hover effects
 - **Responsive**: Mobile-first design approach
 - **Accessibility**: Proper contrast and keyboard navigation
